@@ -1,7 +1,8 @@
 from pyfiglet import figlet_format
 from termcolor import colored
+from random import choice
 import requests
-from random import randint
+
 
 
 prgm_title = colored(figlet_format('Dad Jokes 5000'),color='cyan')
@@ -15,18 +16,19 @@ response = requests.get(
 	headers={'Accept':'application/json'},
 	params={'term':topic}).json()
 
+results = response['results']
 total_jokes = response['total_jokes']
-joke_select = randint(1,total_jokes)
+
 
 
 if total_jokes == 0:
 	print(f'I don\'t know any jokes about {topic}, go clean your room.')
 elif total_jokes == 1:
 	print(f'I know 1 joke about {topic}.')
-	print(response['results'][joke_select-1]['joke'])
+	print(results[0]['joke'])
 else:
 	print(f'I know {total_jokes} about {topic}. Here\'s one')
-	print(response['results'][joke_select-1]['joke'])
+	print(choice(results)['joke'])
 
 
 
